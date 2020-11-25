@@ -23,4 +23,9 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+Route.post('login', 'AuthController.login')
+
+Route.get('user', 'AuthController.user')
+
 Route.get('users', 'UsersController.index')
+Route.post('users', 'UsersController.store')
