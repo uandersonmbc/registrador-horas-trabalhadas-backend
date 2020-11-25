@@ -7,6 +7,7 @@ export default class Types extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
       table.string('name').notNullable()
+      table.string('slug').notNullable()
       table.timestamps(true)
     })
   }
