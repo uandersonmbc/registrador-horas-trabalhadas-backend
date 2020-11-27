@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
 
+import WorkedHour from 'App/Models/WorkedHour'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -29,4 +30,9 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasMany(() => WorkedHour, {
+    foreignKey: 'user_id',
+  })
+  public workedHours: HasMany<typeof WorkedHour>
 }

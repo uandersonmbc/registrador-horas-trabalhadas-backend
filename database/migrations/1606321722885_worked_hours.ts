@@ -6,9 +6,9 @@ export default class WorkedHours extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
-      table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE')
-      table.uuid('project_id').references('id').inTable('projects').onDelete('CASCADE')
-      table.uuid('type_id').references('id').inTable('types').onDelete('CASCADE')
+      table.uuid('user_id').notNullable().references('id').inTable('users')
+      table.integer('project_id').unsigned().notNullable().references('id').inTable('projects')
+      table.integer('type_id').unsigned().notNullable().references('id').inTable('types')
       table.timestamp('start')
       table.timestamp('end')
       table.boolean('accounted').defaultTo(false)

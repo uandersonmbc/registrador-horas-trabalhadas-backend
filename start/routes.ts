@@ -27,5 +27,6 @@ Route.post('login', 'AuthController.login')
 
 Route.get('user', 'AuthController.user')
 
-Route.get('users', 'UsersController.index')
-Route.post('users', 'UsersController.store')
+Route.resource('users', 'UsersController')
+
+Route.resource('workedhours', 'WorkedHoursController')

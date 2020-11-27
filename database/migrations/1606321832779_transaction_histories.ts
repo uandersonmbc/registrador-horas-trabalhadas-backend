@@ -6,7 +6,7 @@ export default class TransactionHistories extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
-      table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE')
+      table.uuid('user_id').notNullable().references('id').inTable('users')
       table.integer('previous_hours').defaultTo(0)
       table.integer('later_hours').defaultTo(0)
       table.integer('hours').defaultTo(0)
