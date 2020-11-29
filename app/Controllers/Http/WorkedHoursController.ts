@@ -1,15 +1,21 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import User from 'App/Models/User'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 import WorkedHour from 'App/Models/WorkedHour'
 
 export default class WorkedHoursController {
-  public async index({ response, auth }: HttpContextContract) {
-    const u = await auth.authenticate()
-    const user = await User.find(u.id)
-    const t = user?.related('workedHours').query()
-    return response.json({ t })
+  public async index({ request, response, auth }: HttpContextContract) {
+    const user = await auth.authenticate()
+    const data = request.only(['start', 'end'])
+    const {
+      rows,
+    } = await Database.rawQuery(
+      `SELECT to_char(wh."start"::timestamp, 'IW') as week_number, SUM(wh."end"::timestamp - wh."start"::timestamp) AS total_number_hours FROM worked_hours wh WHERE user_id = ? AND "start" BETWEEN ? AND ? AND type_id = ? GROUP BY week_number`,
+      [user.id, data.start, data.end, 1]
+    )
+
+    return response.json(rows)
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
@@ -30,7 +36,40 @@ export default class WorkedHoursController {
       const workedHour = await WorkedHour.create(data)
       return response.json(workedHour)
     } catch (error) {
-      return response.status(error.status).json({ msg: 'deu ruim' })
+      return response.json({ msg: 'Deu ruim' })
+    }
+  }
+
+  public async update({ request, response, auth }: HttpContextContract) {
+    const user = await auth.authenticate()
+    const data = request.only(['project_id', 'type_id', 'start', 'end'])
+
+    try {
+      const workedHours = await WorkedHour.query()
+        .where('id', request.param('id'))
+        .where('user_id', user.id)
+        .update(data)
+      return response.json({
+        message: workedHours[0] ? 'Dados Atualizados' : 'Erro ao atualizar os dados ',
+      })
+    } catch (error) {
+      return response.json({ message: 'Deu ruim' })
+    }
+  }
+
+  public async destroy({ request, response, auth }: HttpContextContract) {
+    const user = await auth.authenticate()
+
+    try {
+      const workedHours = await WorkedHour.query()
+        .where('id', request.param('id'))
+        .where('user_id', user.id)
+        .delete()
+      return response.json({
+        message: workedHours[0] ? 'Registro apagado' : 'Erro ao apagar registro',
+      })
+    } catch (error) {
+      return response.json({ message: 'Deu ruim' })
     }
   }
 }

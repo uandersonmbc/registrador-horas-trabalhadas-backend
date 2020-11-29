@@ -1,6 +1,14 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  hasMany,
+  HasMany,
+  hasOne,
+  belongsTo,
+} from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
 
 import WorkedHour from 'App/Models/WorkedHour'
