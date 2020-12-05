@@ -8,7 +8,7 @@ export default class WorkedHours extends BaseSchema {
       table.uuid('id').primary()
       table.uuid('user_id').notNullable().references('id').inTable('users')
       table.integer('project_id').unsigned().notNullable().references('id').inTable('projects')
-      table.integer('type_id').unsigned().notNullable().references('id').inTable('types')
+      table.integer('activity_id').unsigned().notNullable().references('id').inTable('activities')
       table.timestamp('start')
       table.timestamp('end')
       table.boolean('accounted').defaultTo(false)
