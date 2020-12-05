@@ -30,3 +30,5 @@ Route.get('user', 'AuthController.user')
 Route.resource('users', 'UsersController')
 
 Route.resource('workedhours', 'WorkedHoursController')
+Route.get('activities', 'ActivitiesController.index')
+Route.get('projects', 'ProjectsController.index')
