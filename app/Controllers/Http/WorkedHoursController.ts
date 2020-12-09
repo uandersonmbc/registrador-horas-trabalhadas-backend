@@ -15,13 +15,22 @@ export default class WorkedHoursController {
       if (data.start && data.end === undefined) {
         res = await Database.rawQuery(dayWeek, [user.id, data.start])
       } else if (data.start && data.end && !data.weekTotal) {
-        res = await Database.rawQuery(week, [user.id, data.start, data.end])
+        res = await Database.rawQuery(week, [
+          user.id,
+          data.start + ' 00:00:00',
+          data.end + ' 23:59:59',
+        ])
       } else {
-        res = await Database.rawQuery(weekTotal, [user.id, data.start, data.end])
+        // res = await Database.rawQuery(weekTotal, [
+        //   user.id,
+        //   data.start + ' 00:00:00',
+        //   data.end + ' 23:59:59',
+        // ])
+        res = await Database.rawQuery(weekTotal, [user.id, `${data.start}T00:00:00`])
       }
       return response.json(res.rows)
     } catch (error) {
-      return response.status(error.status).json({ msg: 'Deu ruim', error })
+      return response.status(500).json({ msg: 'Deu ruim', error })
     }
   }
 
@@ -30,13 +39,13 @@ export default class WorkedHoursController {
     await request.validate({
       schema: schema.create({
         project_id: schema.number(),
-        type_id: schema.number(),
+        activity_id: schema.number(),
         start: schema.date(),
         end: schema.date(),
       }),
     })
 
-    const data = request.only(['project_id', 'type_id', 'start', 'end', 'user_id'])
+    const data = request.only(['project_id', 'activity_id', 'start', 'end', 'user_id'])
     data.user_id = user.id
 
     try {
@@ -49,7 +58,7 @@ export default class WorkedHoursController {
 
   public async update({ request, response, auth }: HttpContextContract) {
     const user = await auth.authenticate()
-    const data = request.only(['project_id', 'type_id', 'start', 'end'])
+    const data = request.only(['project_id', 'activity_id', 'start', 'end'])
 
     try {
       const workedHours = await WorkedHour.query()
