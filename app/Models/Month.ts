@@ -5,6 +5,15 @@ export default class Month extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public year: number
+
+  @column()
+  public month: number
+
+  @column()
+  public amount_hours: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

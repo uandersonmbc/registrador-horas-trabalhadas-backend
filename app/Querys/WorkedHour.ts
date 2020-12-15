@@ -19,15 +19,16 @@ where wh.user_id = ? and "start" between ? and ?
 group by wh."start"::date
 `
 
-// export const weekTotal: string = `
-// select to_char(wh."start"::timestamp, 'IW') as "week", SUM(wh."end"::timestamp - wh."start"::timestamp) AS total from worked_hours wh where wh.user_id = ? and "start" between ? and ? and activity_id = 1 group by "week";
-// `
-
 export const weekTotal: string = `
 select
 	to_char(wh."start"::timestamp, 'IW') as "week",
 	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
 from worked_hours wh
-where wh.user_id = ? and  "start" between ? and '2020-12-12 23:59:59' and activity_id = 1
+where wh.user_id = ? and "start" between ? and ? and activity_id = 1
 group by "week";
+`
+
+// wh.user_id = ? and
+export const monthTotal: string = `
+select SUM(wh."end"::timestamp - wh."start"::timestamp) AS total from worked_hours wh where wh.user_id = ? and TO_CHAR(wh."start" , 'YYYY-MM') = ?;
 `
