@@ -43,3 +43,14 @@ where
 	TO_CHAR(wh."start" , replace_types) = ? and activity_id <> ?
 group by a2."name", slug;
 `
+
+export const totalPerDays = `
+select
+	to_char(wh."start"::timestamp, 'DD') as "day",
+	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
+from worked_hours wh
+where
+	wh.user_id = ? and
+	TO_CHAR(wh."start" , 'YYYY-MM') = ? and activity_id = 1
+group by "day";
+`
