@@ -9,19 +9,7 @@ export default class ActivitySeeder extends BaseSeeder {
       {
         name: 'Trabalho',
         slug: 'work',
-      },
-      {
-        name: 'Café',
-        slug: 'coffee',
-      },
-      {
-        name: 'Almoço',
-        slug: 'lunch',
-      },
-      {
-        name: 'Ausente',
-        slug: 'absent',
-      },
+      }
     ])
   }
 }
