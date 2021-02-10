@@ -8,10 +8,6 @@ where wh.user_id = ? and wh."start"::date = ?
 export const week: string = `
 select
 	SUM(case when wh.activity_id = 1 then  wh."end"::timestamp - wh."start"::timestamp else '00:00:00' end) AS total,
-	SUM(case when wh.activity_id = 2 then  wh."end"::timestamp - wh."start"::timestamp else '00:00:00' end) AS coffee,
-	SUM(case when wh.activity_id = 3 then  wh."end"::timestamp - wh."start"::timestamp else '00:00:00' end) AS lunch,
-	SUM(case when wh.activity_id = 4 then  wh."end"::timestamp - wh."start"::timestamp else '00:00:00' end) AS "absent",
-	SUM(case when wh.activity_id = ANY ('{2,3,4}'::int[]) then  wh."end"::timestamp - wh."start"::timestamp else '00:00:00' END) AS pause,
 	min(wh."start") as start_date_timestamp,
 	max(wh."end") as end_date_timestamp
 from worked_hours wh
@@ -26,9 +22,4 @@ select
 from worked_hours wh
 where wh.user_id = ? and "start" between ? and ? and activity_id = 1
 group by "week";
-`
-
-// wh.user_id = ? and
-export const monthTotal: string = `
-select SUM(wh."end"::timestamp - wh."start"::timestamp) AS total from worked_hours wh where wh.user_id = ? and TO_CHAR(wh."start" , 'YYYY-MM') = ?;
 `

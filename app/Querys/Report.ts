@@ -1,4 +1,4 @@
-export const totalMonth: string = `
+export const total: string = `
 select
 	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
 from worked_hours wh
@@ -7,15 +7,15 @@ where
 	TO_CHAR(wh."start" , replace_types) = ?;
 `
 
-export const totalPerMonth: string = `
+export const totalPer: string = `
 select
-	to_char(wh."start"::timestamp, 'MM') as "month",
+	to_char(wh."start"::timestamp, 'replace_format') as "replace_type_group",
 	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
 from worked_hours wh
 where
 	wh.user_id = ? and
 	TO_CHAR(wh."start" , replace_types) = ? and activity_id = 1
-group by "month";
+group by "replace_type_group";
 `
 
 export const totalPerProjects: string = `
@@ -29,28 +29,4 @@ where
 	wh.user_id = ? and
 	TO_CHAR(wh."start" , replace_types) = ? and activity_id = 1
 group by p2."name", slug;
-`
-
-export const totalPerActivities = `
-select
-	a2."name",
-	a2.slug,
-	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
-from worked_hours wh
-join activities a2 on a2.id = wh.activity_id
-where
-	wh.user_id = ? and
-	TO_CHAR(wh."start" , replace_types) = ? and activity_id <> ?
-group by a2."name", slug;
-`
-
-export const totalPerDays = `
-select
-	to_char(wh."start"::timestamp, 'DD') as "day",
-	SUM(wh."end"::timestamp - wh."start"::timestamp) AS total
-from worked_hours wh
-where
-	wh.user_id = ? and
-	TO_CHAR(wh."start" , 'YYYY-MM') = ? and activity_id = 1
-group by "day";
 `

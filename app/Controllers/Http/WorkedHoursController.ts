@@ -37,6 +37,7 @@ export default class WorkedHoursController {
 
   public async store({ request, response, auth }: HttpContextContract) {
     const user = await auth.authenticate()
+
     await request.validate({
       schema: schema.create({
         project_id: schema.number(),
