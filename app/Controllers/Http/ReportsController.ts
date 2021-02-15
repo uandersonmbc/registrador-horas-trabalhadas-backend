@@ -49,8 +49,10 @@ export default class ReportsController {
 
       return response.json(res)
     } catch (error) {
-      console.log(error)
-      return response.status(500).json({ msg: 'Deu ruim', error })
+      return response.status(500).json({
+        msg: 'Não foi possível buscar os dados',
+        error: { message: error.message },
+      })
     }
   }
 }

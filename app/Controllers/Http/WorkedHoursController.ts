@@ -47,7 +47,7 @@ export default class WorkedHoursController {
       let res = await Database.rawQuery(day, [user.id, data.id])
       return response.json(res.rows)
     } catch (error) {
-      return response.json({
+      return response.status(500).json({
         msg: 'Não foi possível buscar os dados do dia',
         error: { message: error.message },
       })
