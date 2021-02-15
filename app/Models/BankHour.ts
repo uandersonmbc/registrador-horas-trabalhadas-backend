@@ -5,6 +5,12 @@ export default class BankHour extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column({ isPrimary: true })
+  public amount_hours: number
+
+  @column()
+  public user_id: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

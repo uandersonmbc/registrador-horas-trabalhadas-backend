@@ -30,7 +30,7 @@ where
 	TO_CHAR(wh."start" , replace_types) = ? and activity_id = 1
 group by p2."name", slug;
 `
-export const totalMonth : string = `
+export const amountPerMonth: string = `
 select
 	"month",
 	amount_hours

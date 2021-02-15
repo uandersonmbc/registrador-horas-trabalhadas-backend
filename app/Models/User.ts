@@ -1,9 +1,18 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  hasMany,
+  HasMany,
+  hasOne,
+  HasOne,
+} from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
 
 import WorkedHour from 'App/Models/WorkedHour'
+import BankHour from 'App/Models/BankHour'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -37,11 +46,13 @@ export default class User extends BaseModel {
     }
   }
 
-  @column()
-  public teste?: string
-
   @hasMany(() => WorkedHour, {
     foreignKey: 'user_id',
   })
   public workedHours: HasMany<typeof WorkedHour>
+
+  @hasOne(() => BankHour, {
+    foreignKey: 'user_id',
+  })
+  public bankHours: HasOne<typeof BankHour>
 }
