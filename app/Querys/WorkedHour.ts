@@ -1,8 +1,15 @@
-export const dayWeek: string = `
-select wh.id, t2."name" as activity, p2."name" as project,project_id, activity_id, "start", "end", (wh."end"::timestamp - wh."start"::timestamp) AS hours from worked_hours wh
-join "activities" t2 on wh.activity_id = t2.id
-join projects p2 on wh.project_id = p2.id
-where wh.user_id = ? and wh."start"::date = ?
+export const day: string = `
+select
+	wh.id, t2."name" as activity,
+	p2."name" as project,project_id,
+	activity_id,
+	"start",
+	"end",
+	(wh."end"::timestamp - wh."start"::timestamp) AS hours
+from worked_hours wh
+	join "activities" t2 on wh.activity_id = t2.id
+	join projects p2 on wh.project_id = p2.id
+where wh.user_id = ? and wh."start"::date = ?;
 `
 
 export const week: string = `
@@ -12,7 +19,7 @@ select
 	max(wh."end") as end_date_timestamp
 from worked_hours wh
 where wh.user_id = ? and "start" between ? and ?
-group by wh."start"::date
+group by wh."start"::date;
 `
 
 export const weekTotal: string = `
