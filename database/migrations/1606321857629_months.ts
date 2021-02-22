@@ -6,7 +6,12 @@ export default class Months extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.uuid('user_id').notNullable().references('id').inTable('users')
+      table
+        .integer('contract_type_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('contract_types')
       table.integer('year').notNullable()
       table.integer('month').notNullable()
       table.integer('amount_hours').defaultTo(0)

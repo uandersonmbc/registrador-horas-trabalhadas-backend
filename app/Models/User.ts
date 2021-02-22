@@ -30,6 +30,9 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
+  public contract_type_id: number
+
+  @column()
   public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })

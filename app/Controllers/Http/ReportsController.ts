@@ -1,8 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 
-import BankHour from 'App/Models/BankHour'
-
 import { amountPerMonth, total, totalPer, totalPerProjects } from 'App/Querys/Report'
 
 export default class ReportsController {
@@ -42,8 +40,8 @@ export default class ReportsController {
       res = Object.assign(res, { amount: data4 })
       res = Object.assign(res, {
         bankHours: {
-          total: user.bankHours.amount_hours,
-          update: user.bankHours.updatedAt,
+          total: user.bankHours?.amount_hours || 0,
+          update: user.bankHours?.updatedAt || '',
         },
       })
 

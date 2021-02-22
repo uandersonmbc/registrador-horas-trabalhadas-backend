@@ -6,10 +6,16 @@ export default class UsersSchema extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
+      table.string('name').notNullable()
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('username').notNullable()
-      table.string('name').notNullable()
+      table
+        .integer('contract_type_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('contract_types')
       table.string('remember_me_token').nullable()
       table.timestamps(true)
     })

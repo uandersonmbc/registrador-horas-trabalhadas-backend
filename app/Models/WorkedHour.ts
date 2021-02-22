@@ -10,10 +10,10 @@ export default class WorkedHour extends BaseModel {
   public user_id: string
 
   @column()
-  public project_id: string
+  public project_id: number
 
   @column()
-  public activity_id: string
+  public activity_id: number
 
   @column.dateTime()
   public start: DateTime

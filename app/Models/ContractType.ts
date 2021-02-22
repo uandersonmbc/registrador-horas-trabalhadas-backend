@@ -1,21 +1,18 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Month extends BaseModel {
+export default class ContractType extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public year: number
+  public name: string
 
   @column()
-  public month: number
+  public slug: string
 
   @column()
-  public amount_hours: number
-
-  @column()
-  public contract_type_id: number
+  public hours: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

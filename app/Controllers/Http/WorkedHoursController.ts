@@ -73,7 +73,7 @@ export default class WorkedHoursController {
       const workedHour = await WorkedHour.create(data)
       return response.json(workedHour)
     } catch (error) {
-      return response.status(error.status).json({ msg: 'Deu ruim' })
+      return response.status(500).json({ msg: 'Deu ruim' })
     }
   }
 
@@ -90,7 +90,7 @@ export default class WorkedHoursController {
         message: workedHours[0] ? 'Dados Atualizados' : 'Erro ao atualizar os dados ',
       })
     } catch (error) {
-      return response.status(error.status).json({ message: 'Deu ruim' })
+      return response.status(500).json({ message: 'Deu ruim' })
     }
   }
 
@@ -106,7 +106,7 @@ export default class WorkedHoursController {
         message: workedHours[0] ? 'Registro apagado' : 'Erro ao apagar registro',
       })
     } catch (error) {
-      return response.status(error.status).json({ message: 'Deu ruim' })
+      return response.status(500).json({ message: 'Deu ruim' })
     }
   }
 }
